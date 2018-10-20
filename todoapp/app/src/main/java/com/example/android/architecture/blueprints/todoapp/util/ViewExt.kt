@@ -21,9 +21,11 @@ package com.example.android.architecture.blueprints.todoapp.util
 
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.Observer
+import android.content.ContextWrapper
 import android.databinding.BindingAdapter
 import android.support.design.widget.Snackbar
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.example.android.architecture.blueprints.todoapp.ScrollChildSwipeRefreshLayout
 import com.example.android.architecture.blueprints.todoapp.SingleLiveEvent
@@ -56,3 +58,14 @@ fun ScrollChildSwipeRefreshLayout.setSwipeRefreshLayoutOnRefreshListener(
         viewModel: TasksViewModel) {
     setOnRefreshListener { viewModel.loadTasks(true) }
 }
+
+internal val View.activity: AppCompatActivity
+    get() {
+        var c = context
+        while (c !is AppCompatActivity && c is ContextWrapper) {
+            c = c.baseContext
+        }
+
+        return c as? AppCompatActivity
+                ?: throw IllegalStateException("Could not find AppCompatActivity for $this.")
+    }
