@@ -1,1 +1,3 @@
 include ':app'
+include ':viewlifecycle'
+project(':viewlifecycle').projectDir = new File('../../ViewLifecycle/viewlifecycle')

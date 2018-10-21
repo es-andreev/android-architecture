@@ -2,12 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
-repositories {
-    flatDir {
-        dirs 'libs'
-    }
-}
-
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -82,6 +76,11 @@ android {
     dataBinding {
         enabled = true
     }
+
+    configurations.all {
+        resolutionStrategy.force "com.android.support:design:$rootProject.supportLibraryVersion"
+        resolutionStrategy.force "android.arch.lifecycle:extensions:$rootProject.archLifecycleVersion"
+    }
 }
 
 /*
@@ -102,7 +101,7 @@ dependencies {
     compile "android.arch.lifecycle:extensions:$rootProject.archLifecycleVersion"
     annotationProcessor "android.arch.lifecycle:compiler:$rootProject.archLifecycleVersion"
 
-    compile(name:'viewlifecycle', ext:'aar')
+    compile project(':viewlifecycle')
 
     // Dependencies for local unit tests
     testCompile "junit:junit:$rootProject.ext.junitVersion"
