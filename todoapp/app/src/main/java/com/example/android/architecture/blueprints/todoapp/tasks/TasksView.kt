@@ -43,7 +43,6 @@ class TasksView : CoordinatorLayout, LifecycleObserver, MenuHandler {
         viewDataBinding.viewmodel?.let {
             setupSnackbar(lifecycleOwner, it.snackbarMessage, Snackbar.LENGTH_LONG)
         }
-        setupToolBar()
         setupFab()
         setupListAdapter()
         setupRefreshLayout()
@@ -70,6 +69,7 @@ class TasksView : CoordinatorLayout, LifecycleObserver, MenuHandler {
                 else -> false
             }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
     private fun setupToolBar() {
         findViewById<Toolbar>(R.id.toolbar).apply {
             activity.setSupportActionBar(this)

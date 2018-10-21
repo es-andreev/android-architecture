@@ -1,18 +1,17 @@
 package com.example.android.architecture.blueprints.todoapp
 
 import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.OnLifecycleEvent
 import android.os.Bundle
+import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.view.ViewGroup
 import com.ea.viewlifecycle.attachNavigation
 import com.ea.viewlifecycle.lifecycleOwner
+import com.example.android.architecture.blueprints.todoapp.statistics.StatisticsView
 import com.example.android.architecture.blueprints.todoapp.tasks.TasksView
 
 class MainActivity : AppCompatActivity() {
@@ -21,35 +20,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var drawerDispatcher: ViewGroup
     private lateinit var drawerLayout: DrawerLayout
 
-    private val backStackListener = object : ViewGroup.OnHierarchyChangeListener {
-        override fun onChildViewRemoved(parent: View, child: View) {
-            invalidateOptionsMenu()
-        }
-
-        override fun onChildViewAdded(parent: View, child: View) {
-            child.lifecycleOwner.lifecycle.addObserver(object : LifecycleObserver {
-                @OnLifecycleEvent(Lifecycle.Event.ON_START)
-                fun onStart() {
-                    invalidateOptionsMenu()
-                    child.lifecycleOwner.lifecycle.removeObserver(this)
-                }
-            })
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.main_act)
 
-        findViewById<ViewGroup>(R.id.main_dispatcher).apply {
-            mainDispatcher = this
-            setOnHierarchyChangeListener(backStackListener)
-        }
-        findViewById<ViewGroup>(R.id.drawer_dispatcher).apply {
-            drawerDispatcher = this
-            setOnHierarchyChangeListener(backStackListener)
-        }
+        mainDispatcher = findViewById(R.id.main_dispatcher)
+        drawerDispatcher = findViewById(R.id.drawer_dispatcher)
 
         if (savedInstanceState == null) {
             mainDispatcher.attachNavigation()
@@ -59,6 +36,27 @@ class MainActivity : AppCompatActivity() {
 
         drawerLayout = (findViewById<DrawerLayout>(R.id.drawer_layout)).apply {
             setStatusBarBackground(R.color.colorPrimaryDark)
+        }
+        setupDrawerContent(findViewById(R.id.nav_view))
+    }
+
+    private fun setupDrawerContent(navigationView: NavigationView) {
+        navigationView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.list_navigation_menu_item -> {
+                    // remove all views except the first one
+                    drawerDispatcher.removeViews(1, drawerDispatcher.childCount - 1)
+                }
+                R.id.statistics_navigation_menu_item -> {
+                    if (drawerDispatcher.getChildAt(drawerDispatcher.childCount - 1) !is StatisticsView) {
+                        drawerDispatcher.addView(StatisticsView(this))
+                    }
+                }
+            }
+            // Close the navigation drawer when an item is selected.
+            menuItem.isChecked = true
+            drawerLayout.closeDrawers()
+            true
         }
     }
 
@@ -95,7 +93,7 @@ class MainActivity : AppCompatActivity() {
     private fun dispatchMenuItemSelected(viewGroup: ViewGroup, item: MenuItem): Boolean {
         for (i in 0 until viewGroup.childCount) {
             val view = viewGroup.getChildAt(i)
-            if (view.lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED) &&
+            if (view.lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED) &&
                     view is MenuHandler && view.onOptionsItemSelected(item)) {
                 return true
             }
