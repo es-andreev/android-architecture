@@ -13,6 +13,7 @@ import com.ea.viewlifecycle.attachNavigation
 import com.ea.viewlifecycle.lifecycleOwner
 import com.example.android.architecture.blueprints.todoapp.statistics.StatisticsView
 import com.example.android.architecture.blueprints.todoapp.tasks.TasksView
+import com.example.android.architecture.blueprints.todoapp.util.navigateBack
 
 class MainActivity : AppCompatActivity() {
 
@@ -99,5 +100,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return false
+    }
+
+    override fun onBackPressed() {
+        if (!mainDispatcher.navigateBack() && !drawerDispatcher.navigateBack()) {
+            super.onBackPressed()
+        }
     }
 }

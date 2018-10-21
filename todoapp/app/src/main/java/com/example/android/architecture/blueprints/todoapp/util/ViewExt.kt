@@ -27,6 +27,7 @@ import android.support.design.widget.Snackbar
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.view.ViewGroup
 import com.example.android.architecture.blueprints.todoapp.ScrollChildSwipeRefreshLayout
 import com.example.android.architecture.blueprints.todoapp.SingleLiveEvent
 import com.example.android.architecture.blueprints.todoapp.tasks.TasksViewModel
@@ -69,3 +70,11 @@ internal val View.activity: AppCompatActivity
         return c as? AppCompatActivity
                 ?: throw IllegalStateException("Could not find AppCompatActivity for $this.")
     }
+
+fun ViewGroup.navigateBack(): Boolean {
+    if (childCount > 1) {
+        removeViewAt(childCount - 1)
+        return true
+    }
+    return false
+}
