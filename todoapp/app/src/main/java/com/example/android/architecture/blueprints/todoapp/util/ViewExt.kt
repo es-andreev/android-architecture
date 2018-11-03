@@ -72,9 +72,16 @@ internal val View.activity: AppCompatActivity
     }
 
 fun ViewGroup.navigateBack(): Boolean {
-    if (childCount > 1) {
+    if (childCount > 0) {
         removeViewAt(childCount - 1)
         return true
     }
     return false
+}
+
+fun ViewGroup.navigateForward(view: View) {
+    val topView = getChildAt(childCount - 1)
+    if (topView == null || topView::class.java != view::class.java) {
+        addView(view)
+    }
 }

@@ -8,14 +8,16 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
 import com.ea.viewlifecycle.attachNavigation
 import com.ea.viewlifecycle.lifecycleOwner
 import com.example.android.architecture.blueprints.todoapp.statistics.StatisticsView
 import com.example.android.architecture.blueprints.todoapp.tasks.TasksView
 import com.example.android.architecture.blueprints.todoapp.util.navigateBack
+import com.example.android.architecture.blueprints.todoapp.util.navigateForward
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MainNavigator {
 
     private lateinit var mainDispatcher: ViewGroup
     private lateinit var drawerDispatcher: ViewGroup
@@ -49,9 +51,7 @@ class MainActivity : AppCompatActivity() {
                     drawerDispatcher.removeViews(1, drawerDispatcher.childCount - 1)
                 }
                 R.id.statistics_navigation_menu_item -> {
-                    if (drawerDispatcher.getChildAt(drawerDispatcher.childCount - 1) !is StatisticsView) {
-                        drawerDispatcher.addView(StatisticsView(this))
-                    }
+                    navigateForwardWithMenu(StatisticsView(this))
                 }
             }
             // Close the navigation drawer when an item is selected.
@@ -80,8 +80,10 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem) =
             when (item.itemId) {
                 android.R.id.home -> {
-                    // Open the navigation drawer when the home icon is selected from the toolbar.
-                    drawerLayout.openDrawer(GravityCompat.START)
+                    if (mainDispatcher.childCount == 0 || !handleBackPress()) {
+                        // Open the navigation drawer when the home icon is selected from the toolbar.
+                        drawerLayout.openDrawer(GravityCompat.START)
+                    }
                     true
                 }
                 else -> {
@@ -103,8 +105,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (!mainDispatcher.navigateBack() && !drawerDispatcher.navigateBack()) {
+        if (!handleBackPress()) {
             super.onBackPressed()
         }
+    }
+
+    private fun handleBackPress(): Boolean {
+        return mainDispatcher.navigateBack() ||
+                drawerDispatcher.childCount > 1 && drawerDispatcher.navigateBack()
+    }
+
+    override fun navigateForward(view: View) {
+        mainDispatcher.navigateForward(view)
+    }
+
+    override fun navigateForwardWithMenu(view: View) {
+        drawerDispatcher.navigateForward(view)
     }
 }

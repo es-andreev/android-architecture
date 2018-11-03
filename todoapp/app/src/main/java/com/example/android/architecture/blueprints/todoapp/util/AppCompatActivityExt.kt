@@ -28,6 +28,8 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
+import android.view.View
+import com.example.android.architecture.blueprints.todoapp.MainNavigator
 import com.example.android.architecture.blueprints.todoapp.ViewModelFactory
 
 
@@ -72,4 +74,12 @@ private inline fun FragmentManager.transact(action: FragmentTransaction.() -> Un
     beginTransaction().apply {
         action()
     }.commit()
+}
+
+fun AppCompatActivity.navigateForward(view: View) {
+    (this as MainNavigator).navigateForward(view)
+}
+
+fun AppCompatActivity.navigateForwardWithMenu(view: View) {
+    (this as MainNavigator).navigateForwardWithMenu(view)
 }
