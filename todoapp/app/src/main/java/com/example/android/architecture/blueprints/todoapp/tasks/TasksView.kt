@@ -2,6 +2,7 @@ package com.example.android.architecture.blueprints.todoapp.tasks
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.support.design.widget.CoordinatorLayout
@@ -16,13 +17,12 @@ import android.view.*
 import com.ea.viewlifecycle.lifecycleOwner
 import com.example.android.architecture.blueprints.todoapp.MenuHandler
 import com.example.android.architecture.blueprints.todoapp.R
+import com.example.android.architecture.blueprints.todoapp.addedittask.AddEditTaskActivity
 import com.example.android.architecture.blueprints.todoapp.databinding.TasksViewBinding
-import com.example.android.architecture.blueprints.todoapp.util.activity
-import com.example.android.architecture.blueprints.todoapp.util.obtainViewModel
-import com.example.android.architecture.blueprints.todoapp.util.setupSnackbar
-import java.util.*
+import com.example.android.architecture.blueprints.todoapp.taskdetail.TaskDetailView
+import com.example.android.architecture.blueprints.todoapp.util.*
 
-class TasksView : CoordinatorLayout, LifecycleObserver, MenuHandler {
+class TasksView : CoordinatorLayout, LifecycleObserver, MenuHandler, TaskItemNavigator, TasksNavigator {
 
     override val hasOptionsMenu = true
 
@@ -42,7 +42,20 @@ class TasksView : CoordinatorLayout, LifecycleObserver, MenuHandler {
 
         viewDataBinding.viewmodel?.let {
             setupSnackbar(lifecycleOwner, it.snackbarMessage, Snackbar.LENGTH_LONG)
+
+            it.openTaskEvent.observe(lifecycleOwner, Observer { taskId ->
+                if (taskId != null) {
+                    openTaskDetails(taskId)
+                }
+            })
+            // Subscribe to "new task" event
+            it.newTaskEvent.observe(lifecycleOwner, Observer {
+                addNewTask()
+            })
         }
+        TaskDetailView.taskDeletedEvent.observe(lifecycleOwner, Observer {
+            viewDataBinding.viewmodel?.handleActivityResult(AddEditTaskActivity.REQUEST_CODE, DELETE_RESULT_OK)
+        })
         setupFab()
         setupListAdapter()
         setupRefreshLayout()
@@ -134,6 +147,14 @@ class TasksView : CoordinatorLayout, LifecycleObserver, MenuHandler {
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun onResume() {
         viewDataBinding.viewmodel?.start()
+    }
+
+    override fun openTaskDetails(taskId: String) {
+        activity.navigateForward(TaskDetailView.newInstance(activity, taskId))
+    }
+
+    override fun addNewTask() {
+
     }
 
     companion object {
