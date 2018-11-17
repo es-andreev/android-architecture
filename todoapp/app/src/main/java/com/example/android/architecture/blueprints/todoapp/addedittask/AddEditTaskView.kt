@@ -58,7 +58,7 @@ class AddEditTaskView : CoordinatorLayout, LifecycleObserver, AddEditTaskNavigat
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     private fun setupToolBar() {
-        findViewById<Toolbar>(R.id.toolbar).apply {
+        findViewById<Toolbar>(R.id.toolbarAddEditTask).apply {
             activity.setSupportActionBar(this)
             activity.supportActionBar?.apply {
                 setDisplayHomeAsUpEnabled(true)

@@ -26,10 +26,10 @@ import android.support.test.filters.LargeTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.example.android.architecture.blueprints.todoapp.Injection
+import com.example.android.architecture.blueprints.todoapp.MainActivity
 import com.example.android.architecture.blueprints.todoapp.R
 import com.example.android.architecture.blueprints.todoapp.ViewModelFactory
 import com.example.android.architecture.blueprints.todoapp.data.Task
-import com.example.android.architecture.blueprints.todoapp.taskdetail.TaskDetailActivity
 import com.example.android.architecture.blueprints.todoapp.util.EspressoIdlingResource
 import org.hamcrest.Matchers.containsString
 import org.junit.After
@@ -52,10 +52,10 @@ import org.junit.runner.RunWith
      * blocks of Junit tests.
      */
     @get:Rule
-    var statisticsActivityTestRule = ActivityTestRule(StatisticsActivity::class.java, true, false)
+    var statisticsActivityTestRule = ActivityTestRule(MainActivity::class.java, true, false)
 
     /**
-     * Setup your test fixture with a fake task id. The [TaskDetailActivity] is started with
+     * Setup your test fixture with a fake task id. The [MainActivity] is started with
      * a particular task id, which is then loaded from the service API.
 
      *
@@ -77,7 +77,9 @@ import org.junit.runner.RunWith
             saveTask(task2)
         }
         // Lazily start the Activity from the ActivityTestRule
-        statisticsActivityTestRule.launchActivity(Intent())
+        statisticsActivityTestRule.launchActivity(Intent().apply {
+            putExtra(MainActivity.openStatistics, true)
+        })
     }
 
     /**

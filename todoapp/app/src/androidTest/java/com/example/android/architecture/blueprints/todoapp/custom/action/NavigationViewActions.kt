@@ -26,6 +26,7 @@ import android.support.test.espresso.matcher.ViewMatchers.isDisplayingAtLeast
 import android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import android.support.test.espresso.util.HumanReadables
 import android.support.v4.widget.DrawerLayout
+import android.support.v4.widget.ViewDragHelper
 import android.view.Menu
 import android.view.View
 import org.hamcrest.Matchers.allOf
@@ -67,6 +68,7 @@ object NavigationViewActions {
                     performIdentifierAction(menuItemId, 0)
                 }
                 uiController.loopMainThreadUntilIdle()
+                uiController.loopMainThreadForAtLeast(260)
             }
 
             private fun getErrorMessage(menu: Menu, view: View): String {

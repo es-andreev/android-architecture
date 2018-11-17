@@ -32,6 +32,7 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.support.v7.widget.Toolbar
 import android.view.View
+import com.example.android.architecture.blueprints.todoapp.MainActivity
 import com.example.android.architecture.blueprints.todoapp.R
 import com.example.android.architecture.blueprints.todoapp.data.FakeTasksRemoteDataSource
 import com.example.android.architecture.blueprints.todoapp.data.Task
@@ -61,7 +62,7 @@ import org.junit.runner.RunWith
      * Rules are interceptors which are executed for each test method and are important building
      * blocks of Junit tests.
      */
-    @get:Rule var activityTestRule = ActivityTestRule(AddEditTaskActivity::class.java, false, false)
+    @get:Rule var activityTestRule = ActivityTestRule(MainActivity::class.java, false, false)
 
     /**
      * Prepare your test fixture for this test. In this case we register an IdlingResources with
@@ -92,13 +93,13 @@ import org.junit.runner.RunWith
         launchNewTaskActivity(null)
 
         // Check that the toolbar shows the correct title
-        onView(withId(R.id.toolbar)).check(matches(withToolbarTitle(R.string.add_task)))
+        onView(withId(R.id.toolbarAddEditTask)).check(matches(withToolbarTitle(R.string.add_task)))
 
         // Rotate activity
         activityTestRule.activity.rotateOrientation()
 
         // Check that the toolbar title is persisted
-        onView(withId(R.id.toolbar)).check(matches(withToolbarTitle(R.string.add_task)))
+        onView(withId(R.id.toolbarAddEditTask)).check(matches(withToolbarTitle(R.string.add_task)))
     }
 
     @Test fun toolbarTitle_editTask_persistsRotation() {
@@ -110,13 +111,13 @@ import org.junit.runner.RunWith
         launchNewTaskActivity(TASK_ID)
 
         // Check that the toolbar shows the correct title
-        onView(withId(R.id.toolbar)).check(matches(withToolbarTitle(R.string.edit_task)))
+        onView(withId(R.id.toolbarAddEditTask)).check(matches(withToolbarTitle(R.string.edit_task)))
 
         // Rotate activity
         activityTestRule.activity.rotateOrientation()
 
         // check that the toolbar title is persisted
-        onView(withId(R.id.toolbar)).check(matches(withToolbarTitle(R.string.edit_task)))
+        onView(withId(R.id.toolbarAddEditTask)).check(matches(withToolbarTitle(R.string.edit_task)))
     }
 
     /**
@@ -124,8 +125,10 @@ import org.junit.runner.RunWith
      */
     private fun launchNewTaskActivity(taskId: String?) {
         val intent = Intent(InstrumentationRegistry.getInstrumentation().targetContext,
-                AddEditTaskActivity::class.java)
-                .apply { putExtra(AddEditTaskFragment.ARGUMENT_EDIT_TASK_ID, taskId) }
+                MainActivity::class.java)
+                .apply {
+                    putExtra(AddEditTaskView.ARGUMENT_EDIT_TASK_ID, taskId)
+                }
         activityTestRule.launchActivity(intent)
     }
 

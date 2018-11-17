@@ -18,19 +18,16 @@ package com.example.android.architecture.blueprints.todoapp.taskdetail
 import android.app.Activity
 import android.content.Intent
 import android.support.test.InstrumentationRegistry
-import android.support.test.espresso.Espresso
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.IdlingRegistry
 import android.support.test.espresso.assertion.ViewAssertions.matches
-import android.support.test.espresso.matcher.ViewMatchers.isChecked
-import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
-import android.support.test.espresso.matcher.ViewMatchers.withId
-import android.support.test.espresso.matcher.ViewMatchers.withText
+import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.filters.LargeTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.view.View
 import com.example.android.architecture.blueprints.todoapp.Injection
+import com.example.android.architecture.blueprints.todoapp.MainActivity
 import com.example.android.architecture.blueprints.todoapp.R
 import com.example.android.architecture.blueprints.todoapp.data.FakeTasksRemoteDataSource
 import com.example.android.architecture.blueprints.todoapp.data.Task
@@ -63,7 +60,7 @@ import org.junit.runner.RunWith
      * Activity under test, so you can control the Intent that is used to start the target
      * Activity.
      */
-    @get:Rule var taskDetailActivityTestRule = ActivityTestRule(TaskDetailActivity::class.java,
+    @get:Rule var taskDetailActivityTestRule = ActivityTestRule(MainActivity::class.java,
             /* Initial touch mode  */ true, /* Lazily launch activity */ false)
 
     private fun loadActiveTask() {
@@ -75,7 +72,7 @@ import org.junit.runner.RunWith
     }
 
     /**
-     * Setup your test fixture with a fake task id. The [TaskDetailActivity] is started with
+     * Setup your test fixture with a fake task id. The [MainActivity] is started with
      * a particular task id, which is then loaded from the service API.
 
      *
@@ -93,7 +90,7 @@ import org.junit.runner.RunWith
 
         // Lazily start the Activity from the ActivityTestRule this time to inject the start Intent
         val startIntent = Intent().apply {
-            putExtra(TaskDetailActivity.EXTRA_TASK_ID, task.id)
+            putExtra(TaskDetailView.ARGUMENT_TASK_ID, task.id)
         }
         taskDetailActivityTestRule.launchActivity(startIntent)
     }

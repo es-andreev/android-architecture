@@ -21,23 +21,23 @@ import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.contrib.DrawerActions.open
 import android.support.test.espresso.contrib.DrawerMatchers.isClosed
 import android.support.test.espresso.contrib.DrawerMatchers.isOpen
-import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
-import android.support.test.espresso.matcher.ViewMatchers.withContentDescription
-import android.support.test.espresso.matcher.ViewMatchers.withId
+import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.filters.LargeTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.support.v4.widget.DrawerLayout
 import android.view.Gravity
+import com.example.android.architecture.blueprints.todoapp.MainActivity
 import com.example.android.architecture.blueprints.todoapp.R
 import com.example.android.architecture.blueprints.todoapp.custom.action.NavigationViewActions.navigateTo
 import com.example.android.architecture.blueprints.todoapp.getToolbarNavigationContentDescription
+import org.hamcrest.Matchers.allOf
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 /**
- * Tests for the [DrawerLayout] layout component in [TasksActivity] which manages
+ * Tests for the [DrawerLayout] layout component in [MainActivity] which manages
  * navigation within the app.
  */
 @RunWith(AndroidJUnit4::class) @LargeTest class AppNavigationTest {
@@ -50,7 +50,7 @@ import org.junit.runner.RunWith
      * Rules are interceptors which are executed for each test method and are important building
      * blocks of Junit tests.
      */
-    @get:Rule var activityTestRule = ActivityTestRule(TasksActivity::class.java)
+    @get:Rule var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
     @Test fun clickOnStatisticsNavigationItem_ShowsStatisticsScreen() {
         // Open Drawer to click on navigation.
@@ -94,8 +94,11 @@ import org.junit.runner.RunWith
                 .check(matches(isClosed(Gravity.START))) // Left Drawer should be closed.
 
         // Open Drawer
-        onView(withContentDescription(activityTestRule.activity
-                .getToolbarNavigationContentDescription(R.id.toolbar))).perform(click())
+        onView(allOf(
+                withContentDescription(activityTestRule.activity
+                        .getToolbarNavigationContentDescription(R.id.toolbarTasks)),
+                withParent(withId(R.id.toolbarTasks))))
+                .perform(click())
 
         // Check if drawer is open
         onView(withId(R.id.drawer_layout))

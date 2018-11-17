@@ -12,7 +12,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.ea.viewlifecycle.attachNavigation
 import com.ea.viewlifecycle.lifecycleOwner
+import com.example.android.architecture.blueprints.todoapp.addedittask.AddEditTaskView
 import com.example.android.architecture.blueprints.todoapp.statistics.StatisticsView
+import com.example.android.architecture.blueprints.todoapp.taskdetail.TaskDetailView
 import com.example.android.architecture.blueprints.todoapp.tasks.TasksView
 import com.example.android.architecture.blueprints.todoapp.util.navigateBack
 import com.example.android.architecture.blueprints.todoapp.util.navigateForward
@@ -35,6 +37,19 @@ class MainActivity : AppCompatActivity(), MainNavigator {
             mainDispatcher.attachNavigation()
             drawerDispatcher.attachNavigation()
             drawerDispatcher.addView(TasksView(this))
+            when {
+                intent.getBooleanExtra(openStatistics, false) -> {
+                    drawerDispatcher.addView(StatisticsView(this))
+                }
+                intent.hasExtra(TaskDetailView.ARGUMENT_TASK_ID) -> {
+                    val taskId = intent.getStringExtra(TaskDetailView.ARGUMENT_TASK_ID)
+                    drawerDispatcher.addView(TaskDetailView.newInstance(this, taskId))
+                }
+                intent.hasExtra(AddEditTaskView.ARGUMENT_EDIT_TASK_ID) -> {
+                    val taskId = intent.getStringExtra(AddEditTaskView.ARGUMENT_EDIT_TASK_ID)
+                    drawerDispatcher.addView(AddEditTaskView.newInstance(this, taskId))
+                }
+            }
         }
 
         drawerLayout = (findViewById<DrawerLayout>(R.id.drawer_layout)).apply {
@@ -121,5 +136,9 @@ class MainActivity : AppCompatActivity(), MainNavigator {
 
     override fun navigateForwardWithMenu(view: View) {
         drawerDispatcher.navigateForward(view)
+    }
+
+    companion object {
+        const val openStatistics = "openStatistics"
     }
 }

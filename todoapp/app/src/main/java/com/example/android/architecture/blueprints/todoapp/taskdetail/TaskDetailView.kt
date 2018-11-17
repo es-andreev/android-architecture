@@ -78,7 +78,7 @@ class TaskDetailView : CoordinatorLayout, LifecycleObserver, MenuHandler, TaskDe
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     private fun setupToolBar() {
-        findViewById<Toolbar>(R.id.toolbar).apply {
+        findViewById<Toolbar>(R.id.toolbarTaskDetail).apply {
             activity.setSupportActionBar(this)
             activity.supportActionBar?.apply {
                 setDisplayHomeAsUpEnabled(true)
@@ -120,8 +120,7 @@ class TaskDetailView : CoordinatorLayout, LifecycleObserver, MenuHandler, TaskDe
     }
 
     companion object {
-        private const val ARGUMENT_TASK_ID = "TASK_ID"
-        private const val REQUEST_EDIT_TASK = 1
+        const val ARGUMENT_TASK_ID = "TASK_ID"
 
         val taskDeletedEvent = SingleLiveEvent<Unit>()
         val taskSavedEvent = SingleLiveEvent<Unit>()

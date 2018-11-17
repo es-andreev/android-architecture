@@ -23,7 +23,7 @@ import android.content.res.Resources
 import com.example.android.architecture.blueprints.todoapp.R
 import com.example.android.architecture.blueprints.todoapp.R.string.successfully_deleted_task_message
 import com.example.android.architecture.blueprints.todoapp.TestUtils
-import com.example.android.architecture.blueprints.todoapp.addedittask.AddEditTaskActivity
+import com.example.android.architecture.blueprints.todoapp.addedittask.AddEditTaskView
 import com.example.android.architecture.blueprints.todoapp.data.Task
 import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource.LoadTasksCallback
 import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository
@@ -192,7 +192,7 @@ class TasksViewModelTest {
         with(tasksViewModel) {
             snackbarMessage.observe(TestUtils.TEST_OBSERVER, observer)
 
-            handleActivityResult(AddEditTaskActivity.REQUEST_CODE, EDIT_RESULT_OK)
+            handleActivityResult(AddEditTaskView.REQUEST_CODE, EDIT_RESULT_OK)
         }
 
         // Then the snackbar shows the correct message
@@ -207,8 +207,7 @@ class TasksViewModelTest {
             snackbarMessage.observe(TestUtils.TEST_OBSERVER, observer)
 
             // When AddEditTaskActivity sends a ADD_EDIT_RESULT_OK
-            handleActivityResult(
-                    AddEditTaskActivity.REQUEST_CODE, ADD_EDIT_RESULT_OK)
+            handleActivityResult(AddEditTaskView.REQUEST_CODE, ADD_EDIT_RESULT_OK)
         }
 
         // Then the snackbar shows the correct message
@@ -223,8 +222,7 @@ class TasksViewModelTest {
             snackbarMessage.observe(TestUtils.TEST_OBSERVER, observer)
 
             // When AddEditTaskActivity sends a ADD_EDIT_RESULT_OK
-            handleActivityResult(
-                    AddEditTaskActivity.REQUEST_CODE, DELETE_RESULT_OK)
+            handleActivityResult(AddEditTaskView.REQUEST_CODE, DELETE_RESULT_OK)
         }
 
         // Then the snackbar shows the correct message

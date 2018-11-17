@@ -37,7 +37,7 @@ class StatisticsView : CoordinatorLayout, LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     private fun setupToolBar() {
-        findViewById<Toolbar>(R.id.toolbar).apply {
+        findViewById<Toolbar>(R.id.toolbarStatistics).apply {
             activity.setSupportActionBar(this)
             activity.supportActionBar?.apply {
                 setTitle(R.string.statistics_title)

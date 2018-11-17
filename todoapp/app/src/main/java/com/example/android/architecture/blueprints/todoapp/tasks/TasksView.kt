@@ -90,7 +90,7 @@ class TasksView : CoordinatorLayout, LifecycleObserver, MenuHandler, TaskItemNav
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     private fun setupToolBar() {
-        findViewById<Toolbar>(R.id.toolbar).apply {
+        findViewById<Toolbar>(R.id.toolbarTasks).apply {
             activity.setSupportActionBar(this)
             activity.supportActionBar?.apply {
                 setHomeAsUpIndicator(R.drawable.ic_menu)
