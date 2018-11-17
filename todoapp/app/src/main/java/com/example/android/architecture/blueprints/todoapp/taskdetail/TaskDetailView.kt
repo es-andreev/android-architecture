@@ -18,11 +18,9 @@ import com.ea.viewlifecycle.lifecycleOwner
 import com.example.android.architecture.blueprints.todoapp.MenuHandler
 import com.example.android.architecture.blueprints.todoapp.R
 import com.example.android.architecture.blueprints.todoapp.SingleLiveEvent
+import com.example.android.architecture.blueprints.todoapp.addedittask.AddEditTaskView
 import com.example.android.architecture.blueprints.todoapp.databinding.TaskdetailViewBinding
-import com.example.android.architecture.blueprints.todoapp.util.activity
-import com.example.android.architecture.blueprints.todoapp.util.navigateBack
-import com.example.android.architecture.blueprints.todoapp.util.obtainViewModel
-import com.example.android.architecture.blueprints.todoapp.util.setupSnackbar
+import com.example.android.architecture.blueprints.todoapp.util.*
 
 class TaskDetailView : CoordinatorLayout, LifecycleObserver, MenuHandler, TaskDetailNavigator {
 
@@ -48,6 +46,11 @@ class TaskDetailView : CoordinatorLayout, LifecycleObserver, MenuHandler, TaskDe
                 }
             }
         }
+
+        AddEditTaskView.taskSavedEvent.observe(lifecycleOwner, Observer {
+            taskSavedEvent.call()
+            (parent as ViewGroup).navigateBack()
+        })
 
         setupFab()
         setupToolBar()
@@ -96,7 +99,10 @@ class TaskDetailView : CoordinatorLayout, LifecycleObserver, MenuHandler, TaskDe
     }
 
     override fun onStartEditTask() {
-
+        val taskId = arguments?.getString(ARGUMENT_TASK_ID)
+        taskId?.apply {
+            activity.navigateForward(AddEditTaskView.newInstance(activity, this))
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -114,11 +120,11 @@ class TaskDetailView : CoordinatorLayout, LifecycleObserver, MenuHandler, TaskDe
     }
 
     companion object {
-
         private const val ARGUMENT_TASK_ID = "TASK_ID"
         private const val REQUEST_EDIT_TASK = 1
 
         val taskDeletedEvent = SingleLiveEvent<Unit>()
+        val taskSavedEvent = SingleLiveEvent<Unit>()
 
         fun newInstance(context: Context, taskId: String) = TaskDetailView(context).apply {
             arguments = Bundle().apply {

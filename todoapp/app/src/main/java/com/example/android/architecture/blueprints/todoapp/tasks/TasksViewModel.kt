@@ -29,7 +29,7 @@ import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
 import com.example.android.architecture.blueprints.todoapp.R
 import com.example.android.architecture.blueprints.todoapp.SingleLiveEvent
-import com.example.android.architecture.blueprints.todoapp.addedittask.AddEditTaskActivity
+import com.example.android.architecture.blueprints.todoapp.addedittask.AddEditTaskView
 import com.example.android.architecture.blueprints.todoapp.data.Task
 import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource
 import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository
@@ -149,7 +149,7 @@ class TasksViewModel(
     }
 
     fun handleActivityResult(requestCode: Int, resultCode: Int) {
-        if (AddEditTaskActivity.REQUEST_CODE == requestCode) {
+        if (AddEditTaskView.REQUEST_CODE == requestCode) {
             snackbarMessage.value =
                     when (resultCode) {
                         EDIT_RESULT_OK ->

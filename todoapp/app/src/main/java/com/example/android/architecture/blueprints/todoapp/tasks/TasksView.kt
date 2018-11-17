@@ -17,7 +17,7 @@ import android.view.*
 import com.ea.viewlifecycle.lifecycleOwner
 import com.example.android.architecture.blueprints.todoapp.MenuHandler
 import com.example.android.architecture.blueprints.todoapp.R
-import com.example.android.architecture.blueprints.todoapp.addedittask.AddEditTaskActivity
+import com.example.android.architecture.blueprints.todoapp.addedittask.AddEditTaskView
 import com.example.android.architecture.blueprints.todoapp.databinding.TasksViewBinding
 import com.example.android.architecture.blueprints.todoapp.taskdetail.TaskDetailView
 import com.example.android.architecture.blueprints.todoapp.util.*
@@ -54,7 +54,13 @@ class TasksView : CoordinatorLayout, LifecycleObserver, MenuHandler, TaskItemNav
             })
         }
         TaskDetailView.taskDeletedEvent.observe(lifecycleOwner, Observer {
-            viewDataBinding.viewmodel?.handleActivityResult(AddEditTaskActivity.REQUEST_CODE, DELETE_RESULT_OK)
+            viewDataBinding.viewmodel?.handleActivityResult(AddEditTaskView.REQUEST_CODE, DELETE_RESULT_OK)
+        })
+        TaskDetailView.taskSavedEvent.observe(lifecycleOwner, Observer {
+            viewDataBinding.viewmodel?.handleActivityResult(AddEditTaskView.REQUEST_CODE, EDIT_RESULT_OK)
+        })
+        AddEditTaskView.taskSavedEvent.observe(lifecycleOwner, Observer {
+            viewDataBinding.viewmodel?.handleActivityResult(AddEditTaskView.REQUEST_CODE, ADD_EDIT_RESULT_OK)
         })
         setupFab()
         setupListAdapter()
@@ -154,7 +160,7 @@ class TasksView : CoordinatorLayout, LifecycleObserver, MenuHandler, TaskItemNav
     }
 
     override fun addNewTask() {
-
+        activity.navigateForward(AddEditTaskView.newInstance(activity))
     }
 
     companion object {
