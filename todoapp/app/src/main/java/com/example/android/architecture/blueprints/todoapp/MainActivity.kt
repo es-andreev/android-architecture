@@ -10,8 +10,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import com.ea.viewlifecycle.attachNavigation
 import com.ea.viewlifecycle.lifecycleOwner
+import com.ea.viewlifecycle.trackNavigation
 import com.example.android.architecture.blueprints.todoapp.addedittask.AddEditTaskView
 import com.example.android.architecture.blueprints.todoapp.statistics.StatisticsView
 import com.example.android.architecture.blueprints.todoapp.taskdetail.TaskDetailView
@@ -34,9 +34,11 @@ class MainActivity : AppCompatActivity(), MainNavigator {
         drawerDispatcher = findViewById(R.id.drawer_dispatcher)
 
         if (savedInstanceState == null) {
-            mainDispatcher.attachNavigation()
-            drawerDispatcher.attachNavigation()
+            mainDispatcher.trackNavigation()
+            drawerDispatcher.trackNavigation()
+
             drawerDispatcher.addView(TasksView(this))
+
             when {
                 intent.getBooleanExtra(openStatistics, false) -> {
                     drawerDispatcher.addView(StatisticsView(this))
