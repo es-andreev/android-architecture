@@ -105,6 +105,7 @@ class AddEditTaskView : CoordinatorLayout, LifecycleObserver, AddEditTaskNavigat
         val taskSavedEvent = SingleLiveEvent<Unit>()
 
         fun newInstance(context: Context, taskId: String? = null) = AddEditTaskView(context).apply {
+            id = R.id.add_edit_task_view
             arguments = Bundle().apply {
                 putString(ARGUMENT_EDIT_TASK_ID, taskId)
             }
