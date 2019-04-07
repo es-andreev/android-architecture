@@ -90,6 +90,8 @@ class MainActivity : AppCompatActivity(), MainNavigator {
             if (view.lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED) &&
                     view is MenuHandler && view.hasOptionsMenu) {
                 view.onCreateOptionsMenu(menu, menuInflater)
+            } else {
+                invalidateOptionsMenu()
             }
         }
     }
