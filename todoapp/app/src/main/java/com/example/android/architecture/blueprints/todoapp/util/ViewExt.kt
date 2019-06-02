@@ -27,7 +27,6 @@ import android.support.design.widget.Snackbar
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.view.ViewGroup
 import com.example.android.architecture.blueprints.todoapp.ScrollChildSwipeRefreshLayout
 import com.example.android.architecture.blueprints.todoapp.SingleLiveEvent
 import com.example.android.architecture.blueprints.todoapp.tasks.TasksViewModel
@@ -43,7 +42,7 @@ fun View.showSnackbar(snackbarText: String, timeLength: Int) {
  * Triggers a snackbar message when the value contained by snackbarTaskMessageLiveEvent is modified.
  */
 fun View.setupSnackbar(lifecycleOwner: LifecycleOwner,
-        snackbarMessageLiveEvent: SingleLiveEvent<Int>, timeLength: Int) {
+                       snackbarMessageLiveEvent: SingleLiveEvent<Int>, timeLength: Int) {
     snackbarMessageLiveEvent.observe(lifecycleOwner, Observer {
         it?.let { showSnackbar(context.getString(it), timeLength) }
     })
@@ -70,18 +69,3 @@ internal val View.activity: AppCompatActivity
         return c as? AppCompatActivity
                 ?: throw IllegalStateException("Could not find AppCompatActivity for $this.")
     }
-
-fun ViewGroup.navigateBack(): Boolean {
-    if (childCount > 0) {
-        removeViewAt(childCount - 1)
-        return true
-    }
-    return false
-}
-
-fun ViewGroup.navigateForward(view: View) {
-    val topView = getChildAt(childCount - 1)
-    if (topView == null || topView::class.java != view::class.java) {
-        addView(view)
-    }
-}

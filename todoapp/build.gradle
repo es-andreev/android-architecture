@@ -16,17 +16,18 @@ ext {
     rulesVersion = '1.0.1'
     espressoVersion = '3.0.1'
     roomVersion = "1.0.0"
+    viewlifecycleVersion = "1.2"
 
     // Architecture Components dependencies
     archLifecycleVersion = "1.1.1"
 }
 
 buildscript {
-    ext.kotlinVersion = '1.1.51'
+    ext.kotlinVersion = '1.2.51'
     ext.gradlePluginVersion = '3.0.0'
     repositories {
-        jcenter()
         google()
+        jcenter()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$gradlePluginVersion"
@@ -39,8 +40,8 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
         google()
+        jcenter()
     }
 }
 

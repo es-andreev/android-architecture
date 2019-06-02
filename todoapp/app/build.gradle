@@ -136,5 +136,5 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
     kapt "com.android.databinding:compiler:$gradlePluginVersion"
 
-    compile 'com.eugene:viewlifecycle:1.1'
+    implementation "com.eugene:viewlifecycle:$viewlifecycleVersion"
 }

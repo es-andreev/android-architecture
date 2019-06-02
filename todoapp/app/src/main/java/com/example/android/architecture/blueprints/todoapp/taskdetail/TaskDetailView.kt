@@ -20,7 +20,10 @@ import com.example.android.architecture.blueprints.todoapp.R
 import com.example.android.architecture.blueprints.todoapp.SingleLiveEvent
 import com.example.android.architecture.blueprints.todoapp.addedittask.AddEditTaskView
 import com.example.android.architecture.blueprints.todoapp.databinding.TaskdetailViewBinding
-import com.example.android.architecture.blueprints.todoapp.util.*
+import com.example.android.architecture.blueprints.todoapp.util.activity
+import com.example.android.architecture.blueprints.todoapp.util.navigator
+import com.example.android.architecture.blueprints.todoapp.util.obtainViewModel
+import com.example.android.architecture.blueprints.todoapp.util.setupSnackbar
 
 class TaskDetailView : CoordinatorLayout, LifecycleObserver, MenuHandler, TaskDetailNavigator {
 
@@ -49,7 +52,7 @@ class TaskDetailView : CoordinatorLayout, LifecycleObserver, MenuHandler, TaskDe
 
         AddEditTaskView.taskSavedEvent.observe(lifecycleOwner, Observer {
             taskSavedEvent.call()
-            (parent as ViewGroup).navigateBack()
+            activity.navigator.navigateBack()
         })
 
         setupFab()
@@ -64,9 +67,9 @@ class TaskDetailView : CoordinatorLayout, LifecycleObserver, MenuHandler, TaskDe
         // The activity observes the navigation commands in the ViewModel
         viewModel.run {
             editTaskCommand.observe(lifecycleOwner,
-                    Observer { onStartEditTask() })
+                Observer { onStartEditTask() })
             deleteTaskCommand.observe(lifecycleOwner,
-                    Observer { onTaskDeleted() })
+                Observer { onTaskDeleted() })
         }
     }
 
@@ -95,13 +98,13 @@ class TaskDetailView : CoordinatorLayout, LifecycleObserver, MenuHandler, TaskDe
     override fun onTaskDeleted() {
         // If the task was deleted successfully, go back to the list.
         taskDeletedEvent.call()
-        (parent as ViewGroup).navigateBack()
+        activity.navigator.navigateBack()
     }
 
     override fun onStartEditTask() {
         val taskId = arguments?.getString(ARGUMENT_TASK_ID)
         taskId?.apply {
-            activity.navigateForward(AddEditTaskView.newInstance(activity, this))
+            activity.navigator.navigateForward(AddEditTaskView.newInstance(activity, this))
         }
     }
 

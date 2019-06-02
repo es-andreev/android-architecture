@@ -13,7 +13,6 @@ import android.support.design.widget.Snackbar
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.ViewGroup
 import com.ea.viewlifecycle.arguments
 import com.ea.viewlifecycle.lifecycleOwner
 import com.ea.viewlifecycle.viewModelProvider
@@ -22,7 +21,7 @@ import com.example.android.architecture.blueprints.todoapp.SingleLiveEvent
 import com.example.android.architecture.blueprints.todoapp.ViewModelFactory
 import com.example.android.architecture.blueprints.todoapp.databinding.AddtaskViewBinding
 import com.example.android.architecture.blueprints.todoapp.util.activity
-import com.example.android.architecture.blueprints.todoapp.util.navigateBack
+import com.example.android.architecture.blueprints.todoapp.util.navigator
 import com.example.android.architecture.blueprints.todoapp.util.setupSnackbar
 
 class AddEditTaskView : CoordinatorLayout, LifecycleObserver, AddEditTaskNavigator {
@@ -94,8 +93,8 @@ class AddEditTaskView : CoordinatorLayout, LifecycleObserver, AddEditTaskNavigat
     }
 
     override fun onTaskSaved() {
-        taskSavedEvent.call()
-        (parent as ViewGroup).navigateBack()
+        taskSavedEvent.postValue(null)
+        activity.navigator.navigateBack()
     }
 
     companion object {

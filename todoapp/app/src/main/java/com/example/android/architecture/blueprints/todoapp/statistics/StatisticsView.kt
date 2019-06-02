@@ -26,6 +26,7 @@ class StatisticsView : CoordinatorLayout, LifecycleObserver {
 
     init {
         setBackgroundColor(Color.WHITE)
+        setTag(R.id.menu_enabled, true)
 
         val inflater = LayoutInflater.from(context)
         viewDataBinding = StatisticsViewBinding.inflate(inflater, this, true)

@@ -1,10 +1,8 @@
 package com.example.android.architecture.blueprints.todoapp
 
-import android.view.View
+import com.ea.viewlifecycle.Navigator
 
 interface MainNavigator {
 
-    fun navigateForward(view: View)
-
-    fun navigateForwardWithMenu(view: View)
+    val navigator: Navigator
 }

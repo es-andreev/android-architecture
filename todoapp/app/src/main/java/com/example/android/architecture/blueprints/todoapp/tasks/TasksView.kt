@@ -156,11 +156,11 @@ class TasksView : CoordinatorLayout, LifecycleObserver, MenuHandler, TaskItemNav
     }
 
     override fun openTaskDetails(taskId: String) {
-        activity.navigateForward(TaskDetailView.newInstance(activity, taskId))
+        activity.navigator.navigateForward(TaskDetailView.newInstance(activity, taskId))
     }
 
     override fun addNewTask() {
-        activity.navigateForward(AddEditTaskView.newInstance(activity))
+        activity.navigator.navigateForward(AddEditTaskView.newInstance(activity))
     }
 
     companion object {

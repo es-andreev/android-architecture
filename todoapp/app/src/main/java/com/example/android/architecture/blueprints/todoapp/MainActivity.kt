@@ -8,48 +8,42 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.view.ViewGroup
+import com.ea.viewlifecycle.BackStackNavigator
 import com.ea.viewlifecycle.lifecycleOwner
-import com.ea.viewlifecycle.trackNavigation
 import com.example.android.architecture.blueprints.todoapp.addedittask.AddEditTaskView
 import com.example.android.architecture.blueprints.todoapp.statistics.StatisticsView
 import com.example.android.architecture.blueprints.todoapp.taskdetail.TaskDetailView
 import com.example.android.architecture.blueprints.todoapp.tasks.TasksView
-import com.example.android.architecture.blueprints.todoapp.util.navigateBack
-import com.example.android.architecture.blueprints.todoapp.util.navigateForward
 
 class MainActivity : AppCompatActivity(), MainNavigator {
 
-    private lateinit var mainDispatcher: ViewGroup
     private lateinit var drawerDispatcher: ViewGroup
     private lateinit var drawerLayout: DrawerLayout
+    override lateinit var navigator: BackStackNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.main_act)
 
-        mainDispatcher = findViewById(R.id.main_dispatcher)
         drawerDispatcher = findViewById(R.id.drawer_dispatcher)
+        navigator = BackStackNavigator(drawerDispatcher, savedInstanceState)
 
         if (savedInstanceState == null) {
-            mainDispatcher.trackNavigation()
-            drawerDispatcher.trackNavigation()
-
-            drawerDispatcher.addView(TasksView(this))
+            navigator.navigateForward(TasksView(this))
 
             when {
                 intent.getBooleanExtra(openStatistics, false) -> {
-                    drawerDispatcher.addView(StatisticsView(this))
+                    navigator.navigateForward(StatisticsView(this))
                 }
                 intent.hasExtra(TaskDetailView.ARGUMENT_TASK_ID) -> {
                     val taskId = intent.getStringExtra(TaskDetailView.ARGUMENT_TASK_ID)
-                    drawerDispatcher.addView(TaskDetailView.newInstance(this, taskId))
+                    navigator.navigateForward(TaskDetailView.newInstance(this, taskId))
                 }
                 intent.hasExtra(AddEditTaskView.ARGUMENT_EDIT_TASK_ID) -> {
                     val taskId = intent.getStringExtra(AddEditTaskView.ARGUMENT_EDIT_TASK_ID)
-                    drawerDispatcher.addView(AddEditTaskView.newInstance(this, taskId))
+                    navigator.navigateForward(AddEditTaskView.newInstance(this, taskId))
                 }
             }
         }
@@ -64,11 +58,10 @@ class MainActivity : AppCompatActivity(), MainNavigator {
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.list_navigation_menu_item -> {
-                    // remove all views except the first one
-                    drawerDispatcher.removeViews(1, drawerDispatcher.childCount - 1)
+                    navigator.navigateBackTo(TasksView::class.java.canonicalName)
                 }
                 R.id.statistics_navigation_menu_item -> {
-                    navigateForwardWithMenu(StatisticsView(this))
+                    navigator.navigateForward(StatisticsView(this))
                 }
             }
             // Close the navigation drawer when an item is selected.
@@ -79,7 +72,6 @@ class MainActivity : AppCompatActivity(), MainNavigator {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        inflateMenu(mainDispatcher, menu)
         inflateMenu(drawerDispatcher, menu)
         return true
     }
@@ -99,15 +91,15 @@ class MainActivity : AppCompatActivity(), MainNavigator {
     override fun onOptionsItemSelected(item: MenuItem) =
             when (item.itemId) {
                 android.R.id.home -> {
-                    if (mainDispatcher.childCount == 0 || !handleBackPress()) {
-                        // Open the navigation drawer when the home icon is selected from the toolbar.
+                    if (navigator.backStackItemsCount == 0 ||
+                            drawerDispatcher.getChildAt(0).getTag(R.id.menu_enabled) == true ||
+                            !navigator.navigateBack()) {
                         drawerLayout.openDrawer(GravityCompat.START)
                     }
                     true
                 }
                 else -> {
-                    dispatchMenuItemSelected(mainDispatcher, item) ||
-                            dispatchMenuItemSelected(drawerDispatcher, item) ||
+                    dispatchMenuItemSelected(drawerDispatcher, item) ||
                             super.onOptionsItemSelected(item)
                 }
             }
@@ -124,22 +116,9 @@ class MainActivity : AppCompatActivity(), MainNavigator {
     }
 
     override fun onBackPressed() {
-        if (!handleBackPress()) {
+        if (!navigator.navigateBack()) {
             super.onBackPressed()
         }
-    }
-
-    private fun handleBackPress(): Boolean {
-        return mainDispatcher.navigateBack() ||
-                drawerDispatcher.childCount > 1 && drawerDispatcher.navigateBack()
-    }
-
-    override fun navigateForward(view: View) {
-        mainDispatcher.navigateForward(view)
-    }
-
-    override fun navigateForwardWithMenu(view: View) {
-        drawerDispatcher.navigateForward(view)
     }
 
     companion object {
