@@ -16,17 +16,15 @@
 package com.example.android.architecture.blueprints.todoapp.tasks
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
 import android.content.Context
-import android.databinding.BaseObservable
-import android.databinding.Bindable
-import android.databinding.ObservableArrayList
-import android.databinding.ObservableBoolean
-import android.databinding.ObservableField
-import android.databinding.ObservableList
 import android.graphics.drawable.Drawable
-import android.support.annotation.DrawableRes
-import android.support.annotation.StringRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+import androidx.databinding.ObservableArrayList
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
+import androidx.databinding.ObservableList
+import androidx.lifecycle.AndroidViewModel
 import com.example.android.architecture.blueprints.todoapp.R
 import com.example.android.architecture.blueprints.todoapp.SingleLiveEvent
 import com.example.android.architecture.blueprints.todoapp.addedittask.AddEditTaskView
@@ -108,7 +106,7 @@ class TasksViewModel(
     }
 
     private fun setFilter(@StringRes filteringLabelString: Int, @StringRes noTasksLabelString: Int,
-            @DrawableRes noTaskIconDrawable: Int, tasksAddVisible: Boolean) {
+                          @DrawableRes noTaskIconDrawable: Int, tasksAddVisible: Boolean) {
         with(context.resources) {
             currentFilteringLabel.set(context.getString(filteringLabelString))
             noTasksLabel.set(getString(noTasksLabelString))

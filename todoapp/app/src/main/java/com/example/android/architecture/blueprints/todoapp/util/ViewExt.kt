@@ -19,17 +19,16 @@ package com.example.android.architecture.blueprints.todoapp.util
  * Extension functions for View and subclasses of View.
  */
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.Observer
 import android.content.ContextWrapper
-import android.databinding.BindingAdapter
-import android.support.design.widget.Snackbar
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.app.AppCompatActivity
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.BindingAdapter
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import com.example.android.architecture.blueprints.todoapp.ScrollChildSwipeRefreshLayout
 import com.example.android.architecture.blueprints.todoapp.SingleLiveEvent
 import com.example.android.architecture.blueprints.todoapp.tasks.TasksViewModel
+import com.google.android.material.snackbar.Snackbar
 
 /**
  * Transforms static java function Snackbar.make() to an extension function on View.

@@ -20,12 +20,12 @@ package com.example.android.architecture.blueprints.todoapp.util
  */
 
 import android.app.Activity
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProviders
-import android.support.v7.app.AppCompatActivity
-import com.ea.viewlifecycle.Navigator
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProviders
 import com.example.android.architecture.blueprints.todoapp.MainNavigator
 import com.example.android.architecture.blueprints.todoapp.ViewModelFactory
+import com.viewlifecycle.Navigator
 
 
 const val ADD_EDIT_RESULT_OK = Activity.RESULT_FIRST_USER + 1

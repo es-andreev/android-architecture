@@ -16,17 +16,14 @@
 
 package com.example.android.architecture.blueprints.todoapp.data.source.local
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
-import android.arch.persistence.room.Update
+import androidx.room.*
 import com.example.android.architecture.blueprints.todoapp.data.Task
 
 /**
  * Data Access Object for the tasks table.
  */
-@Dao interface TasksDao {
+@Dao
+interface TasksDao {
 
     /**
      * Select all tasks from the tasks table.
@@ -56,7 +53,8 @@ import com.example.android.architecture.blueprints.todoapp.data.Task
      * @param task task to be updated
      * @return the number of tasks updated. This should always be 1.
      */
-    @Update fun updateTask(task: Task): Int
+    @Update
+    fun updateTask(task: Task): Int
 
     /**
      * Update the complete status of a task

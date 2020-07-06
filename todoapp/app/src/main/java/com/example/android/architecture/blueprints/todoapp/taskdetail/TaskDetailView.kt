@@ -1,20 +1,17 @@
 package com.example.android.architecture.blueprints.todoapp.taskdetail
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.support.design.widget.CoordinatorLayout
-import android.support.design.widget.Snackbar
-import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.*
 import android.widget.CheckBox
-import com.ea.viewlifecycle.arguments
-import com.ea.viewlifecycle.lifecycleOwner
+import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.Observer
+import androidx.lifecycle.OnLifecycleEvent
 import com.example.android.architecture.blueprints.todoapp.MenuHandler
 import com.example.android.architecture.blueprints.todoapp.R
 import com.example.android.architecture.blueprints.todoapp.SingleLiveEvent
@@ -24,6 +21,9 @@ import com.example.android.architecture.blueprints.todoapp.util.activity
 import com.example.android.architecture.blueprints.todoapp.util.navigator
 import com.example.android.architecture.blueprints.todoapp.util.obtainViewModel
 import com.example.android.architecture.blueprints.todoapp.util.setupSnackbar
+import com.google.android.material.snackbar.Snackbar
+import com.viewlifecycle.arguments
+import com.viewlifecycle.lifecycleOwner
 
 class TaskDetailView : CoordinatorLayout, LifecycleObserver, MenuHandler, TaskDetailNavigator {
 

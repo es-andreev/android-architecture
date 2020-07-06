@@ -15,12 +15,12 @@
  */
 package com.example.android.architecture.blueprints.todoapp.tasks
 
-import android.databinding.DataBindingUtil
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.CheckBox
+import androidx.databinding.DataBindingUtil
 
 import com.example.android.architecture.blueprints.todoapp.data.Task
 import com.example.android.architecture.blueprints.todoapp.databinding.TaskItemBinding
@@ -51,7 +51,7 @@ class TasksAdapter(
             binding = TaskItemBinding.inflate(inflater, viewGroup, false)
         } else {
             // Recycling view
-            binding = DataBindingUtil.getBinding<TaskItemBinding>(view)
+            binding = DataBindingUtil.getBinding(view)!!
         }
 
         val userActionsListener = object : TaskItemUserActionsListener {

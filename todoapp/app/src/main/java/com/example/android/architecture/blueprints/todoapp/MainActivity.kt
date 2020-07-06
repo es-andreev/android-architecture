@@ -1,20 +1,20 @@
 package com.example.android.architecture.blueprints.todoapp
 
-import android.arch.lifecycle.Lifecycle
 import android.os.Bundle
-import android.support.design.widget.NavigationView
-import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
-import com.ea.viewlifecycle.BackStackNavigator
-import com.ea.viewlifecycle.lifecycleOwner
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Lifecycle
 import com.example.android.architecture.blueprints.todoapp.addedittask.AddEditTaskView
 import com.example.android.architecture.blueprints.todoapp.statistics.StatisticsView
 import com.example.android.architecture.blueprints.todoapp.taskdetail.TaskDetailView
 import com.example.android.architecture.blueprints.todoapp.tasks.TasksView
+import com.google.android.material.navigation.NavigationView
+import com.viewlifecycle.BackStackNavigator
+import com.viewlifecycle.lifecycleOwner
 
 class MainActivity : AppCompatActivity(), MainNavigator {
 
@@ -39,7 +39,9 @@ class MainActivity : AppCompatActivity(), MainNavigator {
                 }
                 intent.hasExtra(TaskDetailView.ARGUMENT_TASK_ID) -> {
                     val taskId = intent.getStringExtra(TaskDetailView.ARGUMENT_TASK_ID)
-                    navigator.navigateForward(TaskDetailView.newInstance(this, taskId))
+                    taskId?.let {
+                        navigator.navigateForward(TaskDetailView.newInstance(this, taskId))
+                    }
                 }
                 intent.hasExtra(AddEditTaskView.ARGUMENT_EDIT_TASK_ID) -> {
                     val taskId = intent.getStringExtra(AddEditTaskView.ARGUMENT_EDIT_TASK_ID)
@@ -58,7 +60,7 @@ class MainActivity : AppCompatActivity(), MainNavigator {
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.list_navigation_menu_item -> {
-                    navigator.navigateBackTo(TasksView::class.java.canonicalName)
+                    navigator.navigateBackTo(TasksView::class.java.canonicalName!!)
                 }
                 R.id.statistics_navigation_menu_item -> {
                     navigator.navigateForward(StatisticsView(this))

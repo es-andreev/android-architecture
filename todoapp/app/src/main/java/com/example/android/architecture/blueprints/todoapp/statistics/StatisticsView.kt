@@ -1,19 +1,19 @@
 package com.example.android.architecture.blueprints.todoapp.statistics
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.graphics.Color
-import android.support.design.widget.CoordinatorLayout
-import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import com.ea.viewlifecycle.lifecycleOwner
+import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import com.example.android.architecture.blueprints.todoapp.R
 import com.example.android.architecture.blueprints.todoapp.databinding.StatisticsViewBinding
 import com.example.android.architecture.blueprints.todoapp.util.activity
 import com.example.android.architecture.blueprints.todoapp.util.obtainViewModel
+import com.viewlifecycle.lifecycleOwner
 
 class StatisticsView : CoordinatorLayout, LifecycleObserver {
 

@@ -15,8 +15,8 @@
  */
 package com.example.android.architecture.blueprints.todoapp.tasks
 
-import android.databinding.BindingAdapter
 import android.widget.ListView
+import androidx.databinding.BindingAdapter
 
 import com.example.android.architecture.blueprints.todoapp.data.Task
 

@@ -1,26 +1,26 @@
 package com.example.android.architecture.blueprints.todoapp.tasks
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
-import android.support.design.widget.CoordinatorLayout
-import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.PopupMenu
-import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.util.Log
 import android.view.*
-import com.ea.viewlifecycle.lifecycleOwner
+import androidx.appcompat.widget.PopupMenu
+import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.Observer
+import androidx.lifecycle.OnLifecycleEvent
 import com.example.android.architecture.blueprints.todoapp.MenuHandler
 import com.example.android.architecture.blueprints.todoapp.R
 import com.example.android.architecture.blueprints.todoapp.addedittask.AddEditTaskView
 import com.example.android.architecture.blueprints.todoapp.databinding.TasksViewBinding
 import com.example.android.architecture.blueprints.todoapp.taskdetail.TaskDetailView
 import com.example.android.architecture.blueprints.todoapp.util.*
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
+import com.viewlifecycle.lifecycleOwner
 
 class TasksView : CoordinatorLayout, LifecycleObserver, MenuHandler, TaskItemNavigator, TasksNavigator {
 
